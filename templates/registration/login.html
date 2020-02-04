@@ -1,0 +1,43 @@
+{% extends "geral/base.html" %}
+{% block content %}
+{% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+  {% endif %}
+
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p>Your account doesn't have access to this page. To proceed,
+      please login with an account that has access.</p>
+    {% else %}
+  <div class="card bg-warning text-white">
+    <div class="card-body">Você precisa estar Logado para acessar essa pagina.</div>
+  </div>
+    {% endif %}
+{% endif %}
+<div class="container mt-4">
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <div class="col-md-5 mx-auto">
+                <label for="id_username">Usuário:</label>
+                <input type="text" name="username" class="form-control" placeholder="Entre com o Usuário" id="id_username">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-5 mx-auto">
+                <label for="id_password">Senha:</label>
+                <input type="password" name="password" class="form-control" placeholder="Entre com a senha" id="id_password">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-5 mx-auto">
+                <button type="submit" class="btn btn-primary">Entrar</button>
+                <div class="form-group">
+                    {# Assumes you setup the password_reset view in your URLconf #}
+                    <p><a href="{% url 'password_reset' %}">Esqueceu a Senha?</a></p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

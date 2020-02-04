@@ -1,0 +1,9 @@
+{% extends "geral/base.html" %}
+
+{% block content %}
+<div class="card bg-danger text-white">
+    <div class="card-body">Logged out!</div>
+  </div>
+  <a href="{% url 'login'%}">Clique aqui para logar novamente.</a>
+
+{% endblock %}
