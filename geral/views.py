@@ -10,3 +10,6 @@ def home(request):
     html = "<html><body> Agora é %s</body></html>" %now
     return render(request,'geral/home.html')
 
+def view_excel(request):
+    return render(request,'geral/teste.html')
+

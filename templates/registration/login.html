@@ -1,18 +1,39 @@
 {% extends "geral/base.html" %}
 {% block content %}
 {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-  {% endif %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Usuario e senha</strong> não conferem, tente novamente.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
 
-  {% if next %}
+{% if next %}
     {% if user.is_authenticated %}
-      <p>Your account doesn't have access to this page. To proceed,
-      please login with an account that has access.</p>
+    <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
     {% else %}
-  <div class="card bg-warning text-white">
-    <div class="card-body">Você precisa estar Logado para acessar essa pagina.</div>
-  </div>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Você precisa estar <strong>Logado</strong> para acessar essa pagina.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     {% endif %}
+{% endif %}
+{% if messages %}
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <div class="card bg-warning text-white">
+            <div class="card-body">{{ message }}</div>
+        </div>
+        {% else %}
+        <div class="card bg-success text-white">
+            <div class="card-body">{{ message }}</div>
+        </div>
+        {% endif %}
+    {% endfor %}
 {% endif %}
 <div class="container mt-4">
     <form method="post" action="{% url 'login' %}">

@@ -6,7 +6,8 @@ from django.shortcuts import render
 
 # Create your views here.
 
-class CustomUserCreationForm(forms.Form):
+# class CustomUserCreationForm(forms.Form):
+class UserRegisterForm(forms.Form):
     username = forms.CharField(label='Entre com Usuário', min_length=4, max_length=150)
     email = forms.EmailField(label='Entre com o Email')
     password1 = forms.CharField(label='Entre com a Senha', widget=forms.PasswordInput)
