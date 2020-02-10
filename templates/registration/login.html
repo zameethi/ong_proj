@@ -1,64 +1,32 @@
-{% extends "geral/base.html" %}
-{% block content %}
-{% if form.errors %}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <strong>Usuario e senha</strong> não conferem, tente novamente.
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-{% endif %}
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Blank Page - Brand</title>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{% static 'assets/css/styles.min.css' %}">
+</head>
 
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-        please login with an account that has access.</p>
-    {% else %}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        Você precisa estar <strong>Logado</strong> para acessar essa pagina.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+<body>
+    <!-- Start: Login Form Dark -->
+    <div class="login-dark">
+        <form class="border rounded border-info shadow-lg" data-toggle="tooltip" data-bs-tooltip="" method="post" style="background-color: rgb(255,255,255);margin: 0px;margin-top: -120px;padding-top: 40px;">
+            <h2 class="sr-only">Login Form</h2>
+            <div class="d-flex flex-column align-items-lg-center align-items-xl-center illustration"><img class="d-lg-flex d-xl-flex justify-content-lg-center align-items-lg-center justify-content-xl-center" src="{% static assets/img/xyz.svg' %}" style="width: 120px;"><i class="icon ion-ios-locked-outline"></i></div>
+            <div class="form-group"><input class="form-control" type="text" name="user" placeholder="Usuário"></div>
+            <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Senha"></div>
+            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button></div><a class="forgot" href="#">Esqueceu à senha?</a></form>
     </div>
-    {% endif %}
-{% endif %}
-{% if messages %}
-    {% for message in messages %}
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="card bg-warning text-white">
-            <div class="card-body">{{ message }}</div>
-        </div>
-        {% else %}
-        <div class="card bg-success text-white">
-            <div class="card-body">{{ message }}</div>
-        </div>
-        {% endif %}
-    {% endfor %}
-{% endif %}
-<div class="container mt-4">
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        <div class="form-group">
-            <div class="col-md-5 mx-auto">
-                <label for="id_username">Usuário:</label>
-                <input type="text" name="username" class="form-control" placeholder="Entre com o Usuário" id="id_username">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-5 mx-auto">
-                <label for="id_password">Senha:</label>
-                <input type="password" name="password" class="form-control" placeholder="Entre com a senha" id="id_password">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-5 mx-auto">
-                <button type="submit" class="btn btn-primary">Entrar</button>
-                <div class="form-group">
-                    {# Assumes you setup the password_reset view in your URLconf #}
-                    <p><a href="{% url 'password_reset' %}">Esqueceu a Senha?</a></p>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
-{% endblock %}
+    <!-- End: Login Form Dark -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="{% static 'assets/js/script.min.js' %}"></script>
+</body>
+
+</html>

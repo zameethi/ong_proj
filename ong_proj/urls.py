@@ -20,7 +20,7 @@ from django.contrib.auth import views
 from django.urls import path, include
 from geral.views import home, view_excel
 from usuarios.views import register, profile
-
+from  django.contrib.auth import urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
