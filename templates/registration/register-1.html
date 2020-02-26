@@ -35,7 +35,7 @@
             <div class="card-body">{{ message }}</div>
         </div>
         {% else %}
-        <div class="alert success-warning alert-dismissible fade show" role="alert">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
             {{ message }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -44,7 +44,7 @@
         {% endif %}
         {% endfor %}
         {% endif %}
-        <form class="border rounded border-info shadow-lg" data-toggle="tooltip" data-bs-tooltip="" method="post" style="background-color: rgb(255,255,255);margin: 0px;margin-top: -180px;padding-top: 40px;">
+        <form class="border rounded border-info shadow-lg" data-toggle="tooltip" data-bs-tooltip="" method="post" style="background-color: rgb(255,255,255);margin: 0px;margin-top: -180px;padding-top: 40px;" action="{% url 'login' %}">
 
             <h2 class="sr-only">Login Form</h2>
             {% csrf_token %}

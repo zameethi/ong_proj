@@ -2,9 +2,14 @@
 <html>
 {% load static %}
 <head>
-    <<meta charset="utf-8">
+    {% if user.is_authenticated %}
+    <meta http-equiv="refresh" content="URL='{% url 'home' %}'"/>
+    {% else %}
+    <meta http-equiv="refresh" content="URL='{% url 'login' %}'"/>
+    {% endif%}
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Blank Page - Brand</title>
+    <title>ong</title>
     <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
@@ -13,14 +18,40 @@
 </head>
 
 <body>
-    <!-- Start: Login Form Dark -->
-    <div class="login-dark">
-        <form class="border rounded border-info shadow-lg" data-toggle="tooltip" data-bs-tooltip="" method="post" style="background-color: rgb(255,255,255);margin: 0px;margin-top: -120px;padding-top: 40px;">
+<!-- Start: Login Form Dark -->
+<div class="login-dark">
+    {% if form.errors %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Usuario e senha</strong> não conferem, tente novamente.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %}
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <div class="card bg-warning text-white">
+            <div class="card-body">{{ message }}</div>
+        </div>
+        {% else %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        <form class="border rounded border-info shadow-lg" data-toggle="tooltip" data-bs-tooltip="" method="post" style="background-color: rgb(255,255,255);margin: 0px;margin-top: -180px;padding-top: 40px;" action="{% url 'login' %}">
+
             <h2 class="sr-only">Login Form</h2>
-            <div class="d-flex flex-column align-items-lg-center align-items-xl-center illustration"><img class="d-lg-flex d-xl-flex justify-content-lg-center align-items-lg-center justify-content-xl-center" src="{% static assets/img/xyz.svg' %}" style="width: 120px;"><i class="icon ion-ios-locked-outline"></i></div>
-            <div class="form-group"><input class="form-control" type="text" name="user" placeholder="Usuário"></div>
-            <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Senha"></div>
-            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button></div><a class="forgot" href="#">Esqueceu à senha?</a></form>
+            {% csrf_token %}
+            <div class="d-flex flex-column align-items-lg-center align-items-xl-center illustration"><img class="d-lg-flex d-xl-flex justify-content-lg-center align-items-lg-center justify-content-xl-center" src="{% static 'assets/img/xyz.svg' %}" style="width: 120px;"><i class="icon ion-ios-locked-outline"></i></div>
+            <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Usuário" style="color: rgb(0,0,0);"></div>
+            <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Senha" style="color: rgb(0,0,0);"></div>
+            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button></div><a class="forgot" href="{% url 'password_reset' %}">Esqueceu à senha?</a><a class="forgot" href="{% url 'register' %}" style="padding-top: 13px;">Registrar</a></form>
     </div>
     <!-- End: Login Form Dark -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

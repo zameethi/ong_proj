@@ -20,7 +20,12 @@ from django.contrib.auth import views
 from django.urls import path, include
 from geral.views import home, view_excel
 from usuarios.views import register, profile
-from  django.contrib.auth import urls
+from django.contrib.auth import urls
+
+admin.site.site_header = 'Administração'
+# admin.site.site_title = 'Administração'
+# admin.site.index_title = 'Administração'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),

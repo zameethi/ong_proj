@@ -6,9 +6,9 @@ import datetime
 # Create your views here.
 @login_required
 def home(request):
-    now = datetime.datetime.now()
-    html = "<html><body> Agora é %s</body></html>" %now
-    return render(request,'geral/dashboard.html')
+    data = ["55","30","5", "10"]
+    labels = ["Valor 1", "Valor 2", "Valor 3", "Valor 4"]
+    return render(request,'geral/dashboard.html', {'data': str(data).replace("'",'"'), 'label': str(labels).replace("'",'"')})
 
 def view_excel(request):
     return render(request,'geral/teste.html')
