@@ -14,12 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views
 from django.urls import path, include
 from geral.views import home, view_excel
 from usuarios.views import register, profile
+
 from django.contrib.auth import urls
 
 admin.site.site_header = 'Administração'
@@ -32,7 +34,9 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('profile/', profile, name='profile'),
     path('', home, name='home'),
+    path('financeiro/', include('despesa.urls')),
     path('excel', view_excel, name='excel'),
+    url(r'^chaining/', include('smart_selects.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

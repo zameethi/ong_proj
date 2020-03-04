@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<script>
+if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
+</script>
+
+<script type="text/javascript" src="//code.jquery.com/jquery-1.8.3.js"></script>
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>teste</title>
+</head>
+<body>
+<hr>
+<!--<form method="post" action="{% url 'categoria' %}">-->
+<form method="post" id="form">
+    {% csrf_token %}
+
+    <hr>
+    {% if despesa.errors %}
+    {% for field in despesa %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in despesa.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
+
+    <li><label for="id_data_despesa">Data:</label> <input type="text" name="data_despesa" required="" id="id_data_despesa" value="{{ despesa.data_despesa.value|default_if_none:'' }}"></li>
+    <li><label for="id_valor_despesa">Valor despesa:</label> <input type="number" name="valor_despesa" step="0.01" required="" id="id_valor_despesa" value="{{ despesa.valor_despesa.value }}"></li>
+    <li><label for="id_descricao_despesa">Descricao despesa:</label> <textarea name="descricao_despesa" cols="40" rows="10" maxlength="255" required="" id="id_descricao_despesa">{{ despesa.descricao_despesa.value|default_if_none:'' }}</textarea></li>
+    <li><label for="id_documento">Documento:</label>
+        <select name="documento" id="id_documento">
+            <optgroup label="Tipo de Documento">
+                {% for item in documento.all %}
+                <option value="{{ item.id }}">{{ item }}</option>
+                {% endfor %}
+            </optgroup>
+        </select>
+    </li>
+    <li><label for="id_documento_complemento">Documento complemento:</label> <input type="text" name="documento_complemento" maxlength="50" id="id_documento_complemento"></li>
+    <li><label for="id_transacao">Transacao:</label>
+        <select name="transacao" id="id_transacao">
+            <optgroup label="Tipo de Transação">
+                {% for item in transacao.all %}
+                <option value="{{ item.id }}">{{ item }}</option>
+                {% endfor %}
+            </optgroup>
+        </select>
+    </li>
+    <li><label for="id_transacao_complemento">Transacao complemento:</label> <input type="text" name="transacao_complemento" maxlength="50" id="id_transacao_complemento"></li>
+    <li>
+        <label for="id_categorias">Categorias:</label>
+        <select class="form-control d-inline-flex" name="categorias" onchange="mudarGet()" id="id_categorias">
+            <optgroup label="Categoria">
+                {% for item in despesa.categorias %}
+                    {{ item }}
+                {% endfor %}
+            </optgroup>
+        </select>
+
+    </li>
+    <li><label for="id_subcategorias">Subcategorias:</label>
+        <select class="form-control d-inline-flex" name="subcategorias" id="id_subcategorias">
+            <optgroup label="Subcategoria">
+                {% for item in categoria %}
+<!--                    {% if categoria.count <= 1%}-->
+                        {% for sub in item.subcategorias.all %}
+                        <option value="{{ sub.id }}" name="subcateria">{{ sub }}</option>
+                        {% endfor %}
+<!--                    {% endif %}-->
+                {% endfor %}
+            </optgroup>
+        </select>
+    </li>
+    <input type="submit" value="Enviar" onclick="mudarPost()">
+</form>
+
+<script>
+function mudarGet() {
+  document.getElementById("form").method = "get";
+  this.form.submit();
+}
+function mudarPost() {
+  document.getElementById("form").method = "post";
+}
+</script>
