@@ -1,7 +1,10 @@
 import django_filters
-from .models import Categoria
+from .models import Despesa
 
-class PostFilter(django_filters.FilterSet):
+class DespesaFilter(django_filters.FilterSet):
+
+    min_price = django_filters.filters.NumberFilter(field_name="valor_despesa", lookup_expr='gte')
+    max_price = django_filters.filters.NumberFilter(field_name="valor_despesa", lookup_expr='lte')
     class Meta:
-        model = Categoria
-        fields = ['categorias']
+        model = Despesa
+        fields = ['data_despesa', 'valor_despesa', 'max_price', 'min_price']

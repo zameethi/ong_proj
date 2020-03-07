@@ -3,6 +3,5 @@ from .views import *
 
 urlpatterns = [
     path('despesa', despesa,  name='despesa'),
-    # path('categoria', categoria,  name='categoria'),
-
+    path("lista/", lista_Despesa.as_view()),
     ]

@@ -1,0 +1,45 @@
+<html>
+{% load render_table from django_tables2 %}
+{% load crispy_forms_tags %}
+<style>
+  .orderable {
+  cursor: pointer;
+}
+th:after {
+  font-family: FontAwesome;
+  content: "\f0dc";
+  color: grey
+}
+.desc:after {
+  font-family: FontAwesome;
+  content: "\f0de";
+  color: black
+}
+.asc:after {
+  font-family: FontAwesome;
+  content: "\f0dd";
+  color: black
+}
+
+}
+
+</style>
+
+    <head>
+        <title>List of persons</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    </head>
+
+    </style>
+    <body>
+    {% if filter %}
+    <form action="" method="get" class="form form-inline">
+        {% bootstrap_form filter.form layout='inline' %}
+        {% bootstrap_button 'filter' %}
+    </form>
+{% endif %}
+
+        {% render_table table %}
+    </body>
+</html>

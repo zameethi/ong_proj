@@ -1,3 +1,10 @@
+import sys
+
+from django_filters.views import FilterView
+from django_tables2 import SingleTableView, LazyPaginator, RequestConfig, SingleTableMixin
+from .filters import *
+from .tables import TabelaDespesa
+sys.path.append("..")
 from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
@@ -52,3 +59,16 @@ def despesa(request):
 
     return render(request, 'geral/despesas.html', {'despesa': despesas, 'categoria': categorias, 'documento': doc, 'transacao': trans, 'lista': lista_despesas})
 
+class lista_Despesa(SingleTableMixin, FilterView):
+    table_class = TabelaDespesa
+    model = Despesa
+    template_name = "geral/lista.html"
+
+    filterset_class = DespesaFilter
+
+# def lista_Despesa(request):
+#     queryset = Despesa.objects.all()
+#     table = TabelaDespesa(queryset)
+#     table.paginate(page=request.GET.get("page", 1), per_page=10)
+#     RequestConfig(request).configure(table)
+#     return render(request, 'geral/lista.html', {'table': table})
