@@ -9,6 +9,6 @@ class TabelaDespesa(tables.Table):
         model = Despesa
         template_name = "django_tables2/bootstrap4.html"
         fields = ('data_despesa','valor_despesa')
-        attrs = {'a': {'class': 'btn'}}
+        attrs = {'th': {'class': 'table-primary'}}
 
         orderable = True

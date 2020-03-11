@@ -62,7 +62,7 @@ def despesa(request):
 class lista_Despesa(SingleTableMixin, FilterView):
     table_class = TabelaDespesa
     model = Despesa
-    template_name = "geral/lista.html"
+    template_name = "geral/lista_bootstrap4.html"
 
     filterset_class = DespesaFilter
 
