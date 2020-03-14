@@ -20,10 +20,6 @@ class despesa_form(forms.ModelForm):
         data = round(float(data.replace('.','').replace(',','.')),2)
         return data
 
-    # def __init__(self, categorias, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['categorias'].queryset = Categoria.objects.filter(id=categorias)
-
 class documentos_form(forms.ModelForm):
 
     class Meta:

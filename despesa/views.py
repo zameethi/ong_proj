@@ -21,6 +21,8 @@ def despesa(request):
     # formulario para Trasasações
     form_transacao = transacao_form()
 
+    print(lista_despesas.values())
+
     # Parametros para Despesa
     doc = TipoDocumento.objects.all()
     trans = TipoTransacao.objects.all()
@@ -62,7 +64,7 @@ def despesa(request):
 class lista_Despesa(SingleTableMixin, FilterView):
     table_class = TabelaDespesa
     model = Despesa
-    template_name = "geral/lista_bootstrap4.html"
+    template_name = "geral/lista.html"
 
     filterset_class = DespesaFilter
 

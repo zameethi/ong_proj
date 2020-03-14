@@ -36,21 +36,18 @@ def home(request):
         labels_soma.append(str(a).replace(',',';')[:10])
 
     soma = (Despesa.objects.aggregate(Sum('valor_despesa'))['valor_despesa__sum'])
+
     media = round(Despesa.objects.all().aggregate(Avg('valor_despesa'))['valor_despesa__avg'],2)
 
     agora = datetime.datetime.now()
 
     porcento = round(((agora.day)/(calendar.monthrange(agora.year, agora.month)[1]))*100)
 
-
     qs = Despesa.objects.values('data_despesa').values('data_despesa')
     grouped = itertools.groupby(qs, lambda d: d.get('data_despesa').strftime('%Y-%m-%d'))
 
-    sor = sorted(grouped, reverse=True)
-
     mes = Despesa.objects.annotate(month=TruncMonth('data_despesa')).values('month').annotate(numeros=Count('id')).order_by()
 
-    print(mes)
 
     return render(request,'geral/dashboard.html', {'data': str(data).replace("'",'"'), 'label': str(labels).replace("'",'"'),
                                                    'data2': str(dados_soma).replace("'",'"'), 'label2': str(labels_soma).replace("'",'"'),

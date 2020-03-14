@@ -1,0 +1,100 @@
+<html>
+{% load django_tables2 %}
+{% load render_table from django_tables2 %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% load i18n %}
+<style>
+  .orderable {
+  cursor: pointer;
+    }
+    th:after {
+      font-family: FontAwesome;
+      content: "\f0dc";
+      color: grey
+    }
+    .desc:after {
+      font-family: FontAwesome;
+      content: "\f0de";
+      color: black
+    }
+    .asc:after {
+      font-family: FontAwesome;
+      content: "\f0dd";
+      color: black
+    }
+    a{
+        display: inline-flex;
+        justify-content: space-between !important;
+        text-decoration: none;
+        background: transparent;
+        -webkit-box-pack: justify;font-weight: 400;
+        padding: .375rem .75rem;
+        width: auto;
+
+    }
+    a:focus, a:hover{
+        text-decoration: none !important;
+    }
+
+</style>
+
+    <head>
+        <title>List of persons</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    </head>
+
+
+    <body>
+    {% if filter %}
+    <form action="" method="get" class="form form-inline">
+        {% bootstrap_form filter.form layout='inline' %}
+        {% bootstrap_button 'filter' %}
+    </form>
+    {% endif %}
+        {% render_table table %}
+    <hr>
+    {% block table-wrapper %}
+        {% block pagination %}
+        {% if table.page and table.paginator.num_pages > 1 %}
+        <nav aria-label="Table navigation">
+            <ul class="pagination justify-content-center">
+            {% if table.page.has_previous %}
+                {% block pagination.previous %}
+                <li class="previous page-item">
+                    <a href="{% querystring table.prefixed_page_field=table.page.previous_page_number %}" class="page-link">
+                        <span aria-hidden="true">&laquo;</span>
+                        {% trans 'previous' %}
+                    </a>
+                </li>
+                {% endblock pagination.previous %}
+            {% endif %}
+            {% if table.page.has_previous or table.page.has_next %}
+            {% block pagination.range %}
+            {% for p in table.page|table_page_range:table.paginator %}
+                <li class="page-item{% if table.page.number == p %} active{% endif %}">
+                    <a class="page-link" {% if p != '...' %}href="{% querystring table.prefixed_page_field=p %}"{% endif %}>
+                        {{ p }}
+                    </a>
+                </li>
+            {% endfor %}
+            {% endblock pagination.range %}
+            {% endif %}
+            {% if table.page.has_next %}
+                {% block pagination.next %}
+                <li class="next page-item">
+                    <a href="{% querystring table.prefixed_page_field=table.page.next_page_number %}" class="page-link">
+                        {% trans 'next' %}
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endblock pagination.next %}
+            {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    {% endblock pagination %}
+    {% endblock table-wrapper %}
+    </body>
+</html>

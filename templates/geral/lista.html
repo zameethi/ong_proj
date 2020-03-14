@@ -1,46 +1,170 @@
 <html>
+{% load django_tables2 %}
 {% load render_table from django_tables2 %}
 {% load crispy_forms_tags %}
 {% load bootstrap4 %}
+{% load i18n %}
 <style>
-  .orderable {
-  cursor: pointer;
-}
-th:after {
-  font-family: FontAwesome;
-  content: "\f0dc";
-  color: grey
-}
-.desc:after {
-  font-family: FontAwesome;
-  content: "\f0de";
-  color: black
-}
-.asc:after {
-  font-family: FontAwesome;
-  content: "\f0dd";
-  color: black
-}
-
-}
-
+    .orderable {
+        cursor: pointer;
+    }
+    .butn:after {
+        font-family: FontAwesome;
+        content: "\f0dc";
+        color: grey
+    }
+    .descen:after {
+        font-family: FontAwesome;
+        content: "\f0de";
+        color: black;
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    .ascend:after {
+        font-family: FontAwesome;
+        content: "\f0dd";
+        color: black;
+        text-align: justify;
+        text-justify: inter-word;
+    }
 </style>
 
-    <head>
-        <title>List of persons</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    </head>
+<head>
+    <title>List of persons</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
 
-    </style>
-    <body>
-    {% if filter %}
-    <form action="" method="get" class="form form-inline">
-        {% bootstrap_form filter.form layout='inline' %}
-        {% bootstrap_button 'filter' %}
-    </form>
+
+<body>
+{% block table %}
+
+<div class="text-primary border rounded border-primary" style="margin: 10px;">
+    <div class="row" style="margin: 0;">
+        <div class="col text-center" style="background-color: #007bff;min-height: 40px;padding-top: 8px;"><span class="text-white" style="font-weight: bold;">CONSULTA DE SORTIMENTO LOJA</span></div>
+    </div>
+    <div class="row" style="margin: 0;margin-top: 10px;margin-bottom: 10px;">
+        <div class="col-4 d-inline-flex justify-content-between" style="padding-right: 0;">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend"><span class="input-group-text">Filial</span></div><input type="text" class="form-control" autocomplete="off" />
+                <div class="input-group-append"></div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend"><span class="input-group-text">Seção</span></div><input type="text" class="form-control" autocomplete="off" />
+                <div class="input-group-append"><button class="btn btn-primary" type="button">Buscar</button></div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend"><span class="input-group-text">Tamanho</span></div><input type="text" class="form-control" autocomplete="off" readonly />
+                <div class="input-group-append"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin: 0;">
+        <div class="col">
+            <div class="table-responsive table-bordered border rounded border-primary" style="margin-bottom: 10px;">
+                <table class="table table-striped table-bordered table-sm">
+                    {% block table.thead %}
+                    {% if table.show_header %}
+                    <thead {{ table.attrs.thead.as_html }}>
+                    <tr class="table-primary">
+                        {% for column in table.columns %}
+                        <th {{ column.attrs.th.as_html }}>
+                            {% if column.orderable %}
+                            <a style='width:100%;border:0;' class="d-inline-flex justify-content-between btn butn {% if column.order_by_alias.next|slice:':1' == '-' %}ascend{% elif column.order_by_alias.next|capfirst in request.get_full_path %}descen{% else %} {% endif %}" href="{% querystring table.prefixed_order_by_field=column.order_by_alias.next %}">{{ column.header }}&nbsp; </a>
+                            {% else %}
+                            {{ column.header }}
+                            {% endif %}
+                        </th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    {% endif %}
+                    {% endblock table.thead %}
+                    {% block table.tbody %}
+                    <tbody {{ table.attrs.tbody.as_html }}>
+                    {% for row in table.paginated_rows %}
+                    {% block table.tbody.row %}
+                    <tr {{ row.attrs.as_html }}>
+                        {% for column, cell in row.items %}
+                        <td {{ column.attrs.td.as_html }}>{% if column.localize == None %}{{ cell }}{% else %}{% if column.localize %}{{ cell|localize }}{% else %}{{ cell|unlocalize }}{% endif %}{% endif %}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endblock table.tbody.row %}
+                    {% empty %}
+                    {% if table.empty_text %}
+                    {% block table.tbody.empty_text %}
+                    <tr><td colspan="{{ table.columns|length }}">{{ table.empty_text }}</td></tr>
+                    {% endblock table.tbody.empty_text %}
+                    {% endif %}
+                    {% endfor %}
+                    </tbody>
+                    {% endblock table.tbody %}
+                    {% block table.tfoot %}
+                    {% if table.has_footer %}
+                    <tfoot {{ table.attrs.tfoot.as_html }}>
+                    <tr>
+                        {% for column in table.columns %}
+                        <td {{ column.attrs.tf.as_html }}>{{ column.footer }}</td>
+                        {% endfor %}
+                    </tr>
+                    </tfoot>
+                    {% endif %}
+                    {% endblock table.tfoot %}
+                </table>
+                {% endblock table %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<hr>
+{% block table-wrapper %}
+{% block pagination %}
+{% if table.page and table.paginator.num_pages > 1 %}
+<nav aria-label="Table navigation">
+    <ul class="pagination justify-content-center">
+        {% if table.page.has_previous %}
+        {% block pagination.previous %}
+        <li class="previous page-item">
+            <a href="{% querystring table.prefixed_page_field=table.page.previous_page_number %}" class="page-link">
+                <span aria-hidden="true">&laquo;</span>
+                {% trans 'previous' %}
+            </a>
+        </li>
+        {% endblock pagination.previous %}
+        {% endif %}
+        {% if table.page.has_previous or table.page.has_next %}
+        {% block pagination.range %}
+        {% for p in table.page|table_page_range:table.paginator %}
+        <li class="page-item{% if table.page.number == p %} active{% endif %}">
+            <a class="page-link" {% if p != '...' %}href="{% querystring table.prefixed_page_field=p %}"{% endif %}>
+                {{ p }}
+            </a>
+        </li>
+        {% endfor %}
+        {% endblock pagination.range %}
+        {% endif %}
+        {% if table.page.has_next %}
+        {% block pagination.next %}
+        <li class="next page-item">
+            <a href="{% querystring table.prefixed_page_field=table.page.next_page_number %}" class="page-link">
+                {% trans 'next' %}
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        {% endblock pagination.next %}
+        {% endif %}
+    </ul>
+</nav>
 {% endif %}
-
-        {% render_table table %}
-    </body>
+{% endblock pagination %}
+{% endblock table-wrapper %}
+</div>
+</body>
 </html>
