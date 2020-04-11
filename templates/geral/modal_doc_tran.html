@@ -1,0 +1,38 @@
+{% load static %}
+<div class="modal fade" role="dialog" tabindex="-1" id="document">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document" style="width: 50%;">
+        <div class="modal-content" style="height: 50%;">
+            <form method="post" name="Documento">{% csrf_token %}
+            <div class="modal-header">
+                <h4 class="modal-title">Tipo de documeto</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+            <div class="modal-body">
+                    <div class="form-group"><label>Documento</label><input class="form-control" type="text" name="tipo_documento" placeholder="Tipo ex: Boleto"></div>
+                <p>Inserir novo tipo de documento</p>
+            </div>
+            <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Fechar</button><button class="btn btn-primary" type="button" onclick="this.form.submit()">Salvar</button></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" role="dialog" tabindex="-1" id="transacao">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document" style="width: 50%;">
+        <div class="modal-content" style="height: 50%;">
+            <form method="post" name="Transacao">{% csrf_token %}
+            <div class="modal-header">
+                <h4 class="modal-title">Tipo de transação</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                <div class="modal-body">
+                    <div class="form-group"><label>Documento</label><input class="form-control" type="text" name="tipo_transacao" placeholder="Tipo ex: Online"></div>
+                <p>Inserir novo tipo de transação</p>
+            </div>
+            <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Fechar</button><button class="btn btn-primary" type="button" onclick="this.form.submit()">Salvar</button></div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script src="{% static 'assets/js/script.min.js' %}"></script>
