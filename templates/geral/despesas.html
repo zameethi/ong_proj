@@ -81,7 +81,7 @@
                                 <div class="col-7">
                                     <div class="form-row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 row-cols-xs-1">
                                         <div class="col">
-                                            <div class="form-group"><label>Data</label><input class="form-control" type="date" name="data_despesa" value="{{ despesa.data_despesa.value|default_if_none:'' }}">
+                                            <div class="form-group"><label>Data</label><input class="form-control" type="date" name="data_despesa" value="{{ despesa.data_despesa.value|default_if_none:hoje }}">
 
                                              {% if despesa.data_despesa.errors %}
                                                         <div role="alert" class="alert alert-danger" style="max-height:30px;padding-top: 2px;padding-bottom: 2px;padding-right: 5px;padding-left: 5px;margin-top: 5px;">
@@ -104,7 +104,7 @@
                                             <div class="form-group"><label>Valor</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend"><span class="input-group-text">R$</span></div><input class="form-control" type="text" inputmode="numeric" name="valor_despesa" value="{{ despesa.valor_despesa.value|default_if_none:''|localize }}" required="" data-mask-reverse="true"
-                                                                                                                                          data-mask-selectonfocus="true" style="border-radius: 0px 10px 10px 0px;">
+                                                                                                                                          data-mask-selectonfocus="true" style="border-radius: 0px 10px 10px 0px;" placeholder="0,00">
 
                                                     <div class="input-group-append"></div>
                                                     </div>
@@ -146,7 +146,7 @@
                                                 <optgroup label="Subcategoria">
                                                 {% for item in categoria %}
                                                         {% for sub in item.subcategorias.all %}
-                                                        <option value="{{ sub.id }}" name="subcateria">{{ sub }}</option>
+                                                        <option value="{{ sub.id }}" name="subcategoria">{{ sub }}</option>
                                                         {% endfor %}
                                                 {% endfor %}
                                                 </optgroup>
@@ -275,15 +275,15 @@
                                     <!-- End: Split Button Success -->
                                     <div style="padding: 5px;"></div>
                                     <!-- Start: Split Button Secondary -->
-                                    <a class="btn btn-secondary btn-sm d-sm-flex btn-icon-split" role="button" style="width: 100px;max-height: 31px;" onclick="mudarPost()"><span class="text-white-50 d-none d-md-flex d-lg-flex d-xl-flex justify-content-md-start align-items-md-center icon" style="margin-left: 0;"><i class="fas fa-save"></i></span><span class="text-white text">Gravar&nbsp; &nbsp;</span></a>
+                                    <a class="btn btn-success btn-sm d-sm-flex btn-icon-split" role="button" style="width: 100px;max-height: 31px;" onclick="mudarPost()"><span class="text-white-50 d-none d-md-flex d-lg-flex d-xl-flex justify-content-md-start align-items-md-center icon" style="margin-left: 0;"><i class="fas fa-save"></i></span><span class="text-white text">Gravar&nbsp;&nbsp;&nbsp;&nbsp;</span></a>
                                     <!-- End: Split Button Secondary -->
                                     <div style="padding: 5px;"></div>
                                     <!-- Start: Split Button Secondary -->
-                                    <a class="btn btn-warning btn-sm btn-icon-split" role="button" style="width: 100px;max-height: 31px;" href="{% url 'despesa' %}"><span class="text-white-50 d-none d-md-flex d-lg-flex d-xl-flex justify-content-md-start align-items-md-center icon"><i class="fas fa-broom"></i></span><span class="text-white text">Limpar&nbsp; </span></a>
+                                    <a class="btn btn-warning btn-sm btn-icon-split" role="button" style="width: 100px;max-height: 31px;" href="{% url 'despesa' %}"><span class="text-white-50 d-none d-md-flex d-lg-flex d-xl-flex justify-content-md-start align-items-md-center icon"><i class="fas fa-broom"></i></span><span class="text-white text">Limpar&nbsp;&nbsp;</span></a>
                                     <!-- End: Split Button Secondary -->
                                     <div style="padding: 5px;"></div>
                                     <!-- Start: Split Button Info -->
-                                    <a class="btn btn-info btn-sm btn-icon-split" role="button" style="width: 100px;max-height: 31px;" data-target="#dialog" data-toggle="modal"><span class="text-white-50 d-none d-md-flex d-lg-flex d-xl-flex justify-content-md-start align-items-md-center icon"><i class="far fa-list-alt d-none d-md-flex d-lg-flex d-xl-flex"></i></span><span class="text-white text">Listar&nbsp; &nbsp;&nbsp;</span></a>
+                                    <a class="btn btn-info btn-sm btn-icon-split" role="button" style="width: 100px;max-height: 31px;" data-target="#dialog" data-toggle="modal"><span class="text-white-50 d-none d-md-flex d-lg-flex d-xl-flex justify-content-md-start align-items-md-center icon"><i class="far fa-list-alt d-none d-md-flex d-lg-flex d-xl-flex"></i></span><span class="text-white text">Listar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>
                                     <!-- End: Split Button Info -->
                                 </div>
                             </div>
@@ -344,6 +344,7 @@
                     <table class="table table-striped table-bordered table-hover table-sm">
                         <thead>
                         <tr class="text-primary">
+                            <th></th>
                             <th style="width:165px">Data</th>
                             <th style="width:140px;">Valor</th>
                             <th>Descrição</th>
@@ -357,6 +358,7 @@
                         <tbody>
                         {% for itens in lista %}
                         <tr>
+                            <td><a href="{%  url 'atualiza' itens.id %}"> <i class="fas fa-edit" style="color: Dodgerblue;"></i></a></td>
                             <td>{{ itens.data_despesa }}</td>
                             <td>{{ itens.valor_despesa }}</td>
                             <td>{{ itens.descricao_despesa }}</td>
