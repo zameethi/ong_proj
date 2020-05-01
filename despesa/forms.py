@@ -1,8 +1,6 @@
 from django import forms
 from .models import *
 
-
-
 class despesa_form(forms.ModelForm):
     estado = forms.CharField(required=False, widget=forms.HiddenInput(attrs={'id': 'estado', 'value': ' '}))
     valor_despesa = forms.CharField(max_length=10)

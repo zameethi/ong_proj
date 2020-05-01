@@ -1,20 +1,20 @@
 import datetime
+import inspect
 import sys
-
 from django.contrib.auth.decorators import login_required
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView, LazyPaginator, RequestConfig, SingleTableMixin
 from .filters import *
 from .tables import TabelaDespesa
-sys.path.append("..")
 from django.contrib import messages
-from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from .forms import *
+sys.path.append("..")
 
 
 @login_required
 def despesa(request):
+    self = inspect.currentframe().f_code.co_name
     hoje = datetime.datetime.today().strftime('%Y-%m-%d')
 
     print(hoje)
@@ -39,13 +39,12 @@ def despesa(request):
         categorias = Categoria.objects.filter(id=q)
     else:
         categorias = Categoria.objects.filter(id=0)
-    despesas = despesa_form(initial=val)
     if request.method=='GET':
         q = request.GET.get('categorias')
         if q != '':
             categorias = Categoria.objects.filter(id=q)
         despesas = despesa_form(request.GET or None, initial=val)
-        return render(request, 'geral/despesas.html', {'despesa': despesas, 'categoria': categorias, 'documento': doc, 'transacao': trans, 'lista': lista_despesas, 'hoje':hoje})
+        return render(request, 'geral/despesas.html', {'self':self, 'despesa': despesas, 'categoria': categorias, 'documento': doc, 'transacao': trans, 'lista': lista_despesas, 'hoje':hoje})
     if request.method=='POST':
         despesas = despesa_form(request.POST or None)
         form_documentos = documentos_form(request.POST or None)
@@ -65,7 +64,7 @@ def despesa(request):
                 val = request.POST.dict()
     despesas = despesa_form(request.GET or request.POST or None, initial=val)
 
-    return render(request, 'geral/despesas.html', {'despesa': despesas, 'categoria': categorias, 'documento': doc, 'transacao': trans, 'lista': lista_despesas, 'hoje':hoje})
+    return render(request, 'geral/despesas.html', {'self':self ,'despesa': despesas, 'categoria': categorias, 'documento': doc, 'transacao': trans, 'lista': lista_despesas, 'hoje':hoje})
 
 class lista_Despesa(SingleTableMixin, FilterView):
     table_class = TabelaDespesa
@@ -75,6 +74,7 @@ class lista_Despesa(SingleTableMixin, FilterView):
 
 
 def editar_despesas(request, pk):
+    self = inspect.currentframe().f_code.co_name
     lista_desp = Despesa.objects.get(pk=pk)
     despesas = despesa_form(request.POST or None, instance=lista_desp)
 
@@ -114,5 +114,5 @@ def editar_despesas(request, pk):
             messages.success(request, 'Tipo de transação Salvo.')
             val = request.POST.dict()
     return render(request, 'geral/edit-despesas.html',
-                  {'despesa': despesas, 'categoria': categorias, 'documento': doc, 'transacao': trans,
+                  {'self':self,'despesa': despesas, 'categoria': categorias, 'documento': doc, 'transacao': trans,
                    'lista': lista_despesas})

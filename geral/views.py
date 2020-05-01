@@ -1,20 +1,20 @@
+import inspect
 import itertools
 import sys
 import calendar
-import datetime
 from django.db.models import Sum, Count, Avg
 from django.db.models.functions import TruncMonth
-import operator as op
 sys.path.append("..")
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django.http import HttpResponse
-from despesa.models import *
 import datetime
+from despesa.forms import *
 
-# Create your views here.
 @login_required
 def home(request):
+
+    self = inspect.currentframe().f_code.co_name
+
     dados = Despesa.objects.all().values('valor_despesa', 'categorias').order_by('data_despesa')
     data = []
     labels = []
@@ -49,7 +49,7 @@ def home(request):
     mes = Despesa.objects.annotate(month=TruncMonth('data_despesa')).values('month').annotate(numeros=Count('id')).order_by()
 
 
-    return render(request,'geral/dashboard.html', {'data': str(data).replace("'",'"'), 'label': str(labels).replace("'",'"'),
+    return render(request,'geral/dashboard.html', {'self':self,'data': str(data).replace("'",'"'), 'label': str(labels).replace("'",'"'),
                                                    'data2': str(dados_soma).replace("'",'"'), 'label2': str(labels_soma).replace("'",'"'),
                                                    'soma':soma, 'media': media, 'porcento': porcento})
 
