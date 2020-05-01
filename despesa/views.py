@@ -1,6 +1,7 @@
 import datetime
 import sys
 
+from django.contrib.auth.decorators import login_required
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView, LazyPaginator, RequestConfig, SingleTableMixin
 from .filters import *
@@ -10,8 +11,9 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from .forms import *
-# Create your views here.
 
+
+@login_required
 def despesa(request):
     hoje = datetime.datetime.today().strftime('%Y-%m-%d')
 
