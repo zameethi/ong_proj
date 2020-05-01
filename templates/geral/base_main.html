@@ -14,12 +14,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="{% static 'assets/fonts/fontawesome5-overrides.min.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/styles.min.css' %}">
-
+    <style>
+        .d-md-inline {
+        display: inline!important;
+        align-self: flex-start;
+        margin-left: 25px;
+}
+        .sidebar .nav-item.dropdown .dropdown-toggle::after, .topbar .nav-item.dropdown .dropdown-toggle::after {
+    width: 0.5em;
+}
+    </style>
 </head>
 <body id="page-top" onload="checkToggle()">
-<form name="id" method="get">
-{{ despesa.estado }}
-</form>
 <div id="wrapper">
     <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background-color: rgb(0,221,255);">
         <div class="container-fluid d-flex flex-column p-0">
@@ -30,10 +36,11 @@
                 <li class="nav-item" role="presentation"><a class="nav-link{% if self == 'home' %} active{% endif %}" href="{% url 'home' %}"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link{% if self == 'despesa' %} active{% endif %}" href="{% url 'despesa' %}"><i class="far fa-chart-bar"></i><span>Lançamentos</span></a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link{% if self == 'financeiro' %} active{% endif %}"><i class="fas fa-money-bill-wave-alt"></i><span>Financeiro</span></a></li>
-                <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><i class="far fa-sticky-note"></i><span>Cadastro</span></a>
-                    <div class="dropdown-menu" role="menu" style="width: 176px;"><a class="dropdown-item nav-link" role="presentation" href="#" data-target="#document" data-toggle="modal"><i class="icon ion-document-text" style="color: rgb(255,255,255);"></i><span style="color: rgb(255,255,255);">&nbsp;Documento</span></a><a class="dropdown-item nav-link"
-                                                                                                                                                                                                                                                                                                                 role="presentation" href="#" data-target="#transacao" data-toggle="modal"><i class="icon ion-ios-briefcase-outline" style="color: rgb(255,255,255);"></i><span style="color: rgb(255,255,255);">&nbsp;Transação</span></a></div>
-                </li>
+                <li class="nav-item dropdown" style="max-width: 176px;"><a data-toggle="dropdown" aria-expanded="false" class="dropdown-toggle nav-link" href="#" style="max-width: 176px;"><i class="far fa-sticky-note align-items-md-center"></i><span>Cadastro</span></a>
+                        <div class="dropdown-menu"
+                            role="menu"><a class="dropdown-item nav-link" role="presentation"><i class="icon ion-document-text" style="color: rgb(255,255,255);"></i><span style="color: rgb(255,255,255);">&nbsp;Documento</span></a><a class="dropdown-item nav-link" role="presentation"
+                                href="transacoes.html"><i class="icon ion-ios-briefcase-outline" style="color: rgb(255,255,255);"></i><span style="color: rgb(255,255,255);">&nbsp;Transação</span></a></div>
+                    </li>
                 <li class="nav-item" role="presentation"><a class="nav-link"><i class="fas fa-chart-line"></i><span>Fechamento</span></a></li>
             </ul>
             <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
