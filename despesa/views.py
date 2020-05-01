@@ -72,7 +72,7 @@ class lista_Despesa(SingleTableMixin, FilterView):
     template_name = "geral/lista.html"
     filterset_class = DespesaFilter
 
-
+@login_required
 def editar_despesas(request, pk):
     self = inspect.currentframe().f_code.co_name
     lista_desp = Despesa.objects.get(pk=pk)
